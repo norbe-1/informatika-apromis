@@ -13,19 +13,18 @@ void skaitymas(int &n, int masyvas[])
     failas.close();
 }
 
-// Grazina true, jei rastas bent vienas lyginis skaicius; max - didziausias lyginis
-bool didziausiasLyginis(int n, int masyvas[], int &max)
+// Pradine reiksme mazesne uz bet kuri galima elementa (ai >= -1000000)
+int didziausiasLyginis(int n, int masyvas[])
 {
-    bool rastas = false;
+    int max = -1000001;
     for (int i = 1; i <= n; i++)
     {
-        if (masyvas[i] % 2 == 0 && (!rastas || masyvas[i] > max))
+        if (masyvas[i] % 2 == 0 && masyvas[i] > max)
         {
             max = masyvas[i];
-            rastas = true;
         }
     }
-    return rastas;
+    return max;
 }
 
 int main()
@@ -34,13 +33,13 @@ int main()
     int masyvas[80];
 
     skaitymas(n, masyvas);
+    int maksimalus = didziausiasLyginis(n, masyvas);
 
     ofstream rez("U1rez.txt");
-    int maksimalus;
-    if (didziausiasLyginis(n, masyvas, maksimalus))
-        rez << maksimalus << endl;
-    else
+    if (maksimalus == -1000001)
         rez << "Ne" << endl;
+    else
+        rez << maksimalus << endl;
     rez.close();
 
     return 0;
